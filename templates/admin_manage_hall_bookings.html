@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Hall Booking Requests - Admin{% endblock %}
+
+{% block content %}
+    <h2>Manage Hall Booking Requests</h2>
+
+    <h3>Pending Requests</h3>
+    {% if pending_bookings %}
+        <table border="1" style="width:100%; border-collapse: collapse; margin-bottom: 30px;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hall Name</th>
+                    <th>Requested By</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Purpose</th>
+                    <th>Submitted</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in pending_bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.hall.name if booking.hall else 'N/A' }}</td>
+                    <td>{{ booking.requester.username if booking.requester else 'N/A' }}</td>
+                    <td>{{ booking.requested_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ booking.start_time.strftime('%H:%M') }} - {{ booking.end_time.strftime('%H:%M') }}</td>
+                    <td>{{ booking.purpose | truncate(50) }}</td>
+                    <td>{{ booking.timestamp.strftime('%Y-%m-%d %H:%M') if booking.timestamp else 'N/A' }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin_approve_hall_booking', booking_id=booking.id) }}" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" style="background-color: green; color: white; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Approve</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('admin_reject_hall_booking', booking_id=booking.id) }}" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" style="background-color: red; color: white; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hall booking requests are currently pending approval.</p>
+    {% endif %}
+
+    <h3>Processed Requests</h3>
+    {% if processed_bookings %}
+        <table border="1" style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hall Name</th>
+                    <th>Requested By</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Processed By</th>
+                    <th>Processed At</th>
+                    <th>Admin Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in processed_bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.hall.name if booking.hall else 'N/A' }}</td>
+                    <td>{{ booking.requester.username if booking.requester else 'N/A' }}</td>
+                    <td>{{ booking.requested_date.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <strong 
+                            {% if booking.status == 'Approved' %} style="color: green;"
+                            {% elif booking.status == 'Rejected' or booking.status == 'Cancelled by Admin' %} style="color: red;"
+                            {% else %} style="color: dimgray;"
+                            {% endif %}>
+                            {{ booking.status }}
+                        </strong>
+                    </td>
+                    <td>{{ booking.processor.username if booking.processor else '-' }}</td>
+                    <td>{{ booking.processed_timestamp.strftime('%Y-%m-%d %H:%M') if booking.processed_timestamp else '-'}}</td>
+                    <td>{{ booking.admin_remarks if booking.admin_remarks else '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hall booking requests have been processed yet.</p>
+    {% endif %}
+
+    <p style="margin-top: 20px;">
+        <a href="{{ url_for('admin_dashboard') }}" class="button-link-styled">Back to Admin Dashboard</a>
+    </p>
+{% endblock %}

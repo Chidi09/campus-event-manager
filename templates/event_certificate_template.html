@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Certificate</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .certificate-container {
+            width: 800px; /* Standard certificate width */
+            height: 600px; /* Standard certificate height */
+            border: 10px solid #0056b3; /* Primary blue border */
+            padding: 40px;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, #ffffff, #e0f2f7); /* Light gradient background */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        .certificate-header {
+            font-size: 2.5em;
+            color: #003366; /* Darker blue for header */
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        .certificate-subheader {
+            font-size: 1.5em;
+            color: #0056b3;
+            margin-bottom: 30px;
+        }
+        .certificate-content p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #007bff; /* Bright blue for highlights */
+            font-size: 1.3em;
+        }
+        .signature-section {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+        .signature-block {
+            text-align: center;
+            width: 45%;
+        }
+        .signature-line {
+            border-bottom: 1px solid #333;
+            margin-bottom: 5px;
+            padding-top: 20px;
+        }
+        .signature-label {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .qr-code {
+            margin-top: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-text {
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 40px;
+        }
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 80px;
+            height: auto;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8em;
+            color: rgba(0, 0, 0, 0.05); /* Very light grey */
+            z-index: -1;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <img src="{{ url_for('static', filename='images/image45.png') }}" alt="University Logo" class="logo">
+        <div class="watermark">CERTIFICATE</div>
+
+        <div class="certificate-header">Certificate of Attendance</div>
+        <div class="certificate-subheader">Awarded to</div>
+
+        <p class="highlight" style="font-size: 2em; margin: 20px 0;">{{ user.username }}</p>
+
+        <div class="certificate-content">
+            <p>For successfully registering and attending the event:</p>
+            <p><span class="highlight">{{ event.name }}</span></p>
+            <p>Held on <span class="highlight">{{ event.date.strftime('%A, %B %d, %Y') }}</span> at <span class="highlight">{{ event.location }}</span>.</p>
+            <p>This certificate acknowledges their participation and commitment.</p>
+        </div>
+
+        <img class="qr-code" src="data:image/png;base64,{{ qr_code_base64 }}" alt="QR Code" width="100" height="100">
+        <p class="footer-text">Ticket ID: {{ registration.ticket_id }}</p>
+
+        <div class="signature-section">
+            <div class="signature-block">
+                <div class="signature-line"></div>
+                <div class="signature-label">Director of Student Affairs</div>
+            </div>
+            <div class="signature-block">
+                <div class="signature-line"></div>
+                <div class="signature-label">Vice Chancellor's Office</div>
+            </div>
+        </div>
+
+        <p class="footer-text" style="margin-top: 20px;">Crawford University Event Hub - {{ now.strftime('%Y') }}</p>
+    </div>
+</body>
+</html>

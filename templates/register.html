@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Register New Account - Crawford University{% endblock %}
+
+{% block content %}
+<div class="main-content-container"> {# Ensures consistent page width and padding #}
+    <div class="form-card auth-form-card"> {# Using .form-card, can add .auth-form-card for specific tweaks if needed #}
+        
+        <div class="form-logo-wrapper"> {# Consistent with login page logo wrapper #}
+            <img src="{{ url_for('static', filename='images/image45.png') }}" alt="Crawford University Logo" class="form-page-logo">
+        </div>
+        
+        <h2>Register New Account</h2>
+        
+        <form method="POST" action="{{ url_for('register') }}" class="styled-form">
+            {{ form.hidden_tag() }} {# Renders CSRF token and any other hidden fields #}
+            <div class="form-group">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control") }}
+                {% if form.username.errors %}
+                    <div class="errors">{% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control") }}
+                {% if form.email.errors %}
+                    <div class="errors">{% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", autocomplete="new-password") }}
+                {% if form.password.errors %}
+                    <div class="errors">{% for error in form.password.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_password.label(class="form-label") }}
+                {{ form.confirm_password(class="form-control", autocomplete="new-password") }}
+                {% if form.confirm_password.errors %}
+                    <div class="errors">{% for error in form.confirm_password.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.role.label(class="form-label") }}
+                {{ form.role(class="form-control") }}
+                {% if form.role.errors %}
+                    <div class="errors">{% for error in form.role.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+
+        <p class="auth-form-link">
+            Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

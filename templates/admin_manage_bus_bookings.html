@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Bus Booking Requests - Admin{% endblock %}
+
+{% block content %}
+    <h2>Manage Bus Booking Requests</h2>
+
+    <h3>Pending Requests</h3>
+    {% if pending_bookings %}
+        <table border="1" style="width:100%; border-collapse: collapse; margin-bottom: 30px;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Bus ID</th>
+                    <th>Requested By</th>
+                    <th>Date</th>
+                    <th>Pickup Time</th>
+                    <th>From &gt; To</th>
+                    <th>Purpose</th>
+                    <th>Passengers</th>
+                    <th>Submitted</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in pending_bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.bus.identifier if booking.bus else 'N/A' }}</td>
+                    <td>{{ booking.requester.username if booking.requester else 'N/A' }}</td>
+                    <td>{{ booking.requested_date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ booking.pickup_time.strftime('%H:%M') }}</td>
+                    <td>{{ booking.pickup_location }} &rarr; {{ booking.destination }}</td>
+                    <td>{{ booking.purpose | truncate(30) }}</td>
+                    <td>{{ booking.number_of_passengers if booking.number_of_passengers else 'N/A' }}</td>
+                    <td>{{ booking.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin_approve_bus_booking', booking_id=booking.id) }}" style="display:inline;">
+                            <button type="submit" style="background-color: green; color: white; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Approve</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('admin_reject_bus_booking', booking_id=booking.id) }}" style="display:inline;">
+                            <button type="submit" style="background-color: red; color: white; padding: 5px 10px; border-radius: 5px; border: none; cursor: pointer;">Reject</button>
+                            {# Optional: input for rejection remarks #}
+                            {# <input type="text" name="admin_remarks" placeholder="Rejection reason"> #}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bus booking requests are currently pending approval.</p>
+    {% endif %}
+
+    <h3>Processed Requests</h3>
+    {% if processed_bookings %}
+        <table border="1" style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Bus ID</th>
+                    <th>Requested By</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Processed By</th>
+                    <th>Processed At</th>
+                    <th>Admin Remarks</th>
+                    <th>Ticket</th> {# NEW COLUMN FOR ADMINS TO DOWNLOAD TICKETS #}
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in processed_bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.bus.identifier if booking.bus else 'N/A' }}</td>
+                    <td>{{ booking.requester.username if booking.requester else 'N/A' }}</td>
+                    <td>{{ booking.requested_date.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <strong 
+                            {% if booking.status == 'Approved' %} style="color: green;"
+                            {% elif booking.status == 'Rejected' or booking.status == 'Cancelled by Admin' %} style="color: red;"
+                            {% else %} style="color: dimgray;" %}{% endif %}>
+                            {{ booking.status }}
+                        </strong>
+                    </td>
+                    <td>{{ booking.processor.username if booking.processor else '-' }}</td>
+                    <td>{{ booking.processed_timestamp.strftime('%Y-%m-%d %H:%M') if booking.processed_timestamp else '-'}}</td>
+                    <td>{{ booking.admin_remarks if booking.admin_remarks else '-' }}</td>
+                    <td> {# NEW CELL FOR TICKET DOWNLOAD #}
+                        {% if booking.status == 'Approved' and booking.certificate_path %}
+                            <a href="{{ url_for('download_certificate', file_path=booking.certificate_path) }}" target="_blank" style="color: #007bff; text-decoration: none; font-weight: bold;">Download Ticket</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bus booking requests have been processed yet.</p>
+    {% endif %}
+
+    <p style="margin-top: 20px;">
+        <a href="{{ url_for('admin_dashboard') }}" class="button-link-styled">Back to Admin Dashboard</a>
+    </p>
+{% endblock %}

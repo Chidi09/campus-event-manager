@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Page Title{% endblock %} | Crawford University Event Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/school_theme.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/image45.png') }}" alt="Crawford University Logo" class="header-logo">
+        <h1 class="header-title">Crawford University Events</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('list_halls') }}">View Halls</a>
+            <a href="{{ url_for('list_buses') }}">View Buses</a>
+            <a href="{{ url_for('list_events') }}">View Events</a> {# ADDED: Link to view all events #}
+            {% if current_user.role == 'student' %}
+                <a href="{{ url_for('my_hall_bookings') }}">My Hall Bookings</a>
+                <a href="{{ url_for('my_bus_bookings') }}">My Bus Bookings</a>
+                <a href="{{ url_for('my_event_registrations') }}">My Event Registrations</a> {# ADDED: Link for students to see their event registrations #}
+            {% endif %}
+            <a href="{{ url_for('notifications') }}">
+                Notifications
+                {% if unread_notifications_count > 0 %}
+                    <span style="background-color: #dc3545; color: white; border-radius: 0.5rem; padding: 0.2em 0.5em; font-size: 0.75em; vertical-align: top;">{{ unread_notifications_count }}</span>
+                {% endif %}
+            </a>
+            
+            {# User info and Logout on the right #}
+            <span style="float: right;">
+                Hi, {{ current_user.username }} ({{ current_user.role }})! 
+                <a href="{{ url_for('logout') }}" style="display: inline; padding:0; margin-left:10px;">Logout</a>
+            </span>
+
+            {# Dark Mode Toggle Button - Add this #}
+            <button class="theme-toggle-button" style="float: right; margin-right: 20px; background-color: #fff; color: var(--primary-blue); border: 1px solid var(--primary-blue); padding: 5px 10px; cursor: pointer;">
+                Light/Dark
+            </button>
+            
+        {% else %}
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            {# Dark Mode Toggle Button - Also for logged-out users #}
+            <button class="theme-toggle-button" style="float: right; margin-right: 20px; background-color: #fff; color: var(--primary-blue); border: 1px solid var(--primary-blue); padding: 5px 10px; cursor: pointer;">
+                Light/Dark
+            </button>
+        {% endif %}
+    </nav>
+
+    <div class="content"> {# Or whatever class you are using for the main content area #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="flash-{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    {# JavaScript files #}
+    <script src="{{ url_for('static', filename='js/theme_toggle.js') }}"></script>
+    {# ... potential footer and script tags ... #}
+</body>
+</html>

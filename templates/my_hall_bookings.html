@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}My Hall Booking Requests{% endblock %}
+
+{% block content %}
+    <h2>My Hall Booking Requests</h2>
+
+    {% if bookings %}
+        <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">Hall Name</th>
+                    <th style="padding: 8px; text-align: left;">Requested Date</th>
+                    <th style="padding: 8px; text-align: left;">Time Slot</th>
+                    <th style="padding: 8px; text-align: left;">Purpose</th>
+                    <th style="padding: 8px; text-align: left;">Status</th>
+                    <th style="padding: 8px; text-align: left;">Admin Remarks</th>
+                    {# Optional: Action to cancel if status is 'Pending' #}
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td style="padding: 8px;">{{ booking.hall.name if booking.hall else 'N/A' }}</td>
+                    <td style="padding: 8px;">{{ booking.requested_date.strftime('%Y-%m-%d') }}</td>
+                    <td style="padding: 8px;">{{ booking.start_time.strftime('%H:%M') }} - {{ booking.end_time.strftime('%H:%M') }}</td>
+                    <td style="padding: 8px;">{{ booking.purpose | truncate(50) }}</td>
+                    <td style="padding: 8px;">
+                        <strong 
+                            {% if booking.status == 'Approved' %} style="color: green;"
+                            {% elif booking.status == 'Rejected' or booking.status == 'Cancelled by Admin' %} style="color: red;"
+                            {% elif booking.status == 'Pending' %} style="color: orange;"
+                            {% endif %}>
+                            {{ booking.status }}
+                        </strong>
+                    </td>
+                    <td style="padding: 8px;">{{ booking.admin_remarks if booking.admin_remarks else '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="margin-top: 20px;">You have not made any hall booking requests yet.</p>
+        <p><a href="{{ url_for('list_halls') }}">Click here to view available halls and make a booking.</a></p>
+    {% endif %}
+
+    <p style="margin-top: 30px;">
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </p>
+{% endblock %}

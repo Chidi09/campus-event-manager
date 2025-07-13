@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Available Campus Buses - Crawford University{% endblock %}
+
+{% block content %}
+<div class="main-content-container">
+    <div class="page-header-block">
+        <h2>Available Campus Buses</h2>
+        <p class="page-subtitle">Select a bus from the list below to make a booking request.</p>
+    </div>
+
+    {% if buses %}
+        <div class="apple-style-list-container">
+            {% for bus in buses %}
+            <div class="bus-list-item">
+                <div class="bus-item-details">
+                    <h4 class="bus-identifier">{{ bus.identifier }}</h4>
+                    <p class="bus-meta"><strong>Capacity:</strong> {{ bus.capacity }} passengers</p>
+                    {% if bus.driver_contact %}<p class="bus-meta"><strong>Driver Contact:</strong> {{ bus.driver_contact }}</p>{% endif %}
+                    {% if bus.route_details %}<p class="bus-description"><strong>Details/Route:</strong> {{ bus.route_details | nl2br }}</p>{% endif %}
+                </div>
+                <div class="bus-item-actions">
+                    <a href="{{ url_for('book_bus_request', bus_id=bus.id) }}" class="button-primary">Request Booking</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center; padding: 30px 0;">There are currently no buses listed in the system. Please check back later.</p>
+    {% endif %}
+</div>
+{% endblock %}

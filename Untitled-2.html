@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Attendees for {{ event.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Manage Attendees</h1>
+    <h2>Event: {{ event.name }}</h2>
+    <p>Date: {{ event.date.strftime('%Y-%m-%d %H:%M') }}</p>
+    <a href="{{ url_for('admin_dashboard') }}">&larr; Back to Dashboard</a>
+
+    {% if registrations %}
+    <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th style="padding: 8px; text-align: left;">Attendee</th>
+                <th style="padding: 8px; text-align: left;">Email</th>
+                <th style="padding: 8px; text-align: left;">Registered On</th>
+                <th style="padding: 8px; text-align: left;">Certificate Status</th>
+                <th style="padding: 8px; text-align: left;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in registrations %}
+            <tr>
+                <td style="padding: 8px;">{{ reg.user.username }}</td>
+                <td style="padding: 8px;">{{ reg.user.email }}</td>
+                <td style="padding: 8px;">{{ reg.registration_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td style="padding: 8px;">
+                    {% if reg.certificate_path %}
+                        Generated on {{ reg.certificate_generated_at.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        Not Generated
+                    {% endif %}
+                </td>
+                <td style="padding: 8px;">
+                    {% if reg.certificate_path %}
+                        <a href="{{ url_for('static', filename=reg.certificate_path) }}" download>Download</a>
+                    {% else %}
+                        <form action="{{ url_for('admin_generate_certificate', registration_id=reg.id) }}" method="POST" style="display:inline;">
+                            {{ csrf_token() }}
+                            <button type="submit">Generate Certificate</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="margin-top: 20px;">There are no attendees registered for this event yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

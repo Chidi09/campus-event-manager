@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <h1>{{ event.name }}</h1>
+
+        <div class="row">
+            <div class="col-md-8">
+                <p><strong>Date:</strong> {{ event.date.strftime('%A, %B %d, %Y at %I:%M %p') }}</p>
+                <p><strong>Location:</strong> {{ event.location }}</p>
+                <p><strong>Price:</strong> {% if event.price == 0 %}Free{% else %}${{ "%.2f"|format(event.price) }}{% endif %}</p>
+                <p><strong>Capacity:</strong> 
+                    {% if event.capacity is none %}
+                        Unlimited
+                    {% else %}
+                        {{ event.capacity }} 
+                        {% if remaining_capacity is not none %}
+                            (Remaining: {{ remaining_capacity }})
+                        {% endif %}
+                    {% endif %}
+                </p>
+                <p>{{ event.description|nl2br }}</p>
+            </div>
+            <div class="col-md-4">
+                {% if current_user.is_authenticated %}
+                    {% if is_registered %}
+                        <div class="alert alert-info" role="alert">
+                            You are already registered for this event.
+                        </div>
+                        <a href="{{ url_for('my_event_registrations') }}" class="btn btn-secondary">View My Registrations</a>
+                    {% else %}
+                        {% if event.capacity is none or remaining_capacity > 0 %}
+                            <h2>Register Now</h2>
+                            <form method="POST" action="{{ url_for('register_for_event', event_id=event.id) }}">
+                                {{ registration_form.hidden_tag() }}
+                                <p>{{ registration_form.submit(class="btn btn-primary") }}</p>
+                            </form>
+                        {% else %}
+                            <div class="alert alert-warning" role="alert">
+                                This event is currently full.
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <p><a href="{{ url_for('login') }}" class="btn btn-primary">Login to Register</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

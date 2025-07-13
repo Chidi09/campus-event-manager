@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Available Halls{% endblock %}
+
+{% block content %}
+<div class="main-content-container"> {# Ensures consistent page width and padding #}
+    <h2>Available Campus Halls</h2>
+    <p>Below is a list of halls available for booking. Click "Book Now" to submit a request.</p>
+
+    {% if halls %}
+        <div class="resource-grid-container"> {# Container for hall cards #}
+            {% for hall in halls %}
+            <div class="resource-card hall-card"> {# General resource card + specific hall-card class if needed #}
+                <h4>{{ hall.name }}</h4>
+                <p class="resource-meta"><strong>Capacity:</strong> {{ hall.capacity }}</p>
+                <p class="resource-detail">
+                    <strong>Location:</strong> {{ hall.location_details if hall.location_details else 'N/A' }}
+                </p>
+                <div class="resource-actions">
+                    {% if current_user.role == 'student' %}
+                        <a href="{{ url_for('book_hall_request', hall_id=hall.id) }}" class="button-link-styled">Book Now</a>
+                    {% else %}
+                        {# Non-students can see the halls but not book them directly from this page #}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No halls are currently listed in the system.</p>
+    {% endif %}
+</div>
+{% endblock %}

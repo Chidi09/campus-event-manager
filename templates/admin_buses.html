@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Buses - Admin{% endblock %}
+
+{% block content %}
+<div class="main-content-container"> {# Standard width container #}
+    <h2>Manage Campus Buses</h2>
+
+    <div class="form-card"> {# Card style for the "Add New Bus" form #}
+        <h3>Add New Bus</h3>
+        <form method="POST" action="{{ url_for('admin_manage_buses') }}" class="styled-form">
+            {{ form.hidden_tag() }} 
+
+            <div class="form-group">
+                {{ form.identifier.label }} {{ form.identifier(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.capacity.label }} {{ form.capacity(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.driver_contact.label }} {{ form.driver_contact(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.route_details.label }} {{ form.route_details(class="form-control", rows=3) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+
+    <hr class="section-divider"> {# Optional visual separator #}
+
+    <h3>Existing Buses</h3>
+    {% if buses %}
+        <div class="resource-grid-container"> {# Container for bus cards #}
+            {% for bus in buses %}
+            <div class="resource-card bus-card"> {# General resource card + specific bus-card class if needed #}
+                <h4>{{ bus.identifier }}</h4>
+                <p class="resource-meta"><strong>ID:</strong> {{ bus.id }}</p>
+                <p class="resource-meta"><strong>Capacity:</strong> {{ bus.capacity }}</p>
+                <p class="resource-detail">
+                    <strong>Driver Contact:</strong> {{ bus.driver_contact if bus.driver_contact else 'N/A' }}
+                </p>
+                <p class="resource-detail">
+                    <strong>Route/Details:</strong> {{ bus.route_details if bus.route_details else 'N/A' }}
+                </p>
+                <div class="resource-actions">
+                    {# Placeholders for future Edit/Delete functionality #}
+                    <a href="#" class="button-link-styled button-edit">Edit (Upcoming)</a>
+                    <a href="#" class="button-link-styled button-delete">Delete (Upcoming)</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No buses have been added to the system yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

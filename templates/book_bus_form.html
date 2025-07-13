@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Book Bus: {{ bus.identifier }}{% endblock %}
+
+{% block content %}
+<div class="main-content-container">
+    <div class="form-card">
+        <h2>Request Booking for: {{ bus.identifier }}</h2>
+        <p><strong>Capacity:</strong> {{ bus.capacity }}</p>
+        {% if bus.route_details %}<p><strong>Route/Availability:</strong> {{ bus.route_details }}</p>{% endif %}
+        {% if bus.driver_contact %}<p><strong>Driver Contact (for info):</strong> {{ bus.driver_contact }}</p>{% endif %}
+        <hr style="margin: 20px 0;">
+
+        <form method="POST" action="{{ url_for('book_bus_request', bus_id=bus.id) }}" class="styled-form">
+            {{ form.hidden_tag() }}
+            <div class="form-row">
+                <div class="form-group column">
+                    {{ form.requested_date.label(class="form-label") }}
+                    {{ form.requested_date(class="form-control") }}
+                    {% if form.requested_date.errors %}<div class="errors">{% for error in form.requested_date.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+                </div>
+                <div class="form-group column">
+                    {{ form.pickup_time.label(class="form-label") }}
+                    {{ form.pickup_time(class="form-control") }}
+                    {% if form.pickup_time.errors %}<div class="errors">{% for error in form.pickup_time.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group column">
+                    {{ form.pickup_location.label(class="form-label") }}
+                    {{ form.pickup_location(class="form-control") }}
+                    {% if form.pickup_location.errors %}<div class="errors">{% for error in form.pickup_location.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+                </div>
+                <div class="form-group column">
+                    {{ form.destination.label(class="form-label") }}
+                    {{ form.destination(class="form-control") }}
+                    {% if form.destination.errors %}<div class="errors">{% for error in form.destination.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {# A clearer way to display the label with dynamic capacity info #}
+                <label for="number_of_passengers" class="form-label">{{ form.number_of_passengers.label.text }} (max {{ bus.capacity }})</label>
+                {{ form.number_of_passengers(class="form-control", max=bus.capacity) }}
+                {% if form.number_of_passengers.errors %}<div class="errors">{% for error in form.number_of_passengers.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.purpose.label(class="form-label") }}
+                {{ form.purpose(class="form-control", rows=4) }}
+                {% if form.purpose.errors %}<div class="errors">{% for error in form.purpose.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.event_id.label(class="form-label") }}
+                {{ form.event_id(class="form-control") }}
+                {% if form.event_id.errors %}<div class="errors">{% for error in form.event_id.errors %}<span>{{ error }}</span>{% endfor %}</div>{% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('list_buses') }}" class="button-link-styled">Back to Buses List</a>
+    </p>
+</div>
+{% endblock %}

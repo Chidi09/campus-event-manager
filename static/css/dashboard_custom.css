@@ -1,0 +1,152 @@
+/* Custom CSS for Dashboard - Modern, Classy, Visually Appealing */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.dashboard-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.dashboard-section-header h3 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.6em;
+    color: var(--heading-text-color);
+    letter-spacing: 0.03em;
+}
+
+.dashboard-quick-links a {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dashboard-quick-links a.btn-primary {
+    background-color: var(--secondary-blue);
+    color: var(--text-on-dark-bg);
+    box-shadow: 0 4px 8px rgba(0, 74, 152, 0.3);
+}
+
+.dashboard-quick-links a.btn-primary:hover {
+    background-color: var(--button-hover-blue);
+    box-shadow: 0 6px 12px rgba(0, 74, 152, 0.5);
+}
+
+.dashboard-quick-links a.btn-secondary {
+    background-color: var(--content-bg);
+    color: var(--secondary-blue);
+    border: 1.5px solid var(--secondary-blue);
+    box-shadow: none;
+}
+
+.dashboard-quick-links a.btn-secondary:hover {
+    background-color: var(--secondary-blue);
+    color: var(--text-on-dark-bg);
+    box-shadow: 0 4px 8px rgba(0, 74, 152, 0.3);
+}
+
+.dashboard-card {
+    background-color: var(--content-bg);
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h4 {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--primary-blue);
+}
+
+.dashboard-card .count {
+    font-size: 3em;
+    font-weight: 900;
+    color: var(--secondary-blue);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+}
+
+.dashboard-card p {
+    flex-grow: 1;
+    font-size: 1em;
+    line-height: 1.5;
+    color: var(--text-on-light-bg);
+}
+
+.dashboard-card .action-link {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.dashboard-card .action-link a {
+    font-weight: 600;
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.dashboard-card .action-link a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dashboard-quick-links {
+        width: 100%;
+        margin-top: 12px;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+}
+
+/* Dark Mode Enhancements */
+body.dark-mode .dashboard-card {
+    background-color: var(--content-bg);
+    box-shadow: 0 8px 20px rgba(96, 165, 250, 0.2);
+}
+
+body.dark-mode .dashboard-card:hover {
+    box-shadow: 0 12px 30px rgba(96, 165, 250, 0.4);
+}
+
+body.dark-mode .dashboard-card h4 {
+    color: var(--link-color);
+}
+
+body.dark-mode .dashboard-card .count {
+    color: var(--link-hover-color);
+}
+
+body.dark-mode .dashboard-section-header {
+    border-bottom-color: var(--border-color);
+}

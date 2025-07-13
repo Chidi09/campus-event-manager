@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Crawford University{% endblock %}
+
+{% block content %}
+<div class="main-content-container">
+    <h2>Admin Dashboard</h2>
+    <p>Welcome, {{ current_user.username }}. From here you can manage events, resources, and users.</p>
+
+    <div class="dashboard-actions">
+        <a href="{{ url_for('create_event') }}" class="dashboard-action-card">
+            <h3>Create New Event</h3>
+            <p>Set up a new event for the university community.</p>
+        </a>
+        <a href="{{ url_for('admin_manage_halls') }}" class="dashboard-action-card">
+            <h3>Manage Halls</h3>
+            <p>Add or view university halls available for booking.</p>
+        </a>
+        <a href="{{ url_for('admin_manage_buses') }}" class="dashboard-action-card">
+            <h3>Manage Buses</h3>
+            <p>Add or view campus buses available for booking.</p>
+        </a>
+        <a href="{{ url_for('admin_manage_hall_bookings') }}" class="dashboard-action-card">
+            <h3>Hall Bookings</h3>
+            <p>Approve or reject student requests for hall bookings.</p>
+        </a>
+        <a href="{{ url_for('admin_manage_bus_bookings') }}" class="dashboard-action-card">
+            <h3>Bus Bookings</h3>
+            <p>Approve or reject student requests for bus bookings.</p>
+        </a>
+        <a href="{{ url_for('admin_create_staff') }}" class="dashboard-action-card">
+            <h3>Create Staff Account</h3>
+            <p>Create new accounts for DSA and VC Office staff.</p>
+        </a>
+    </div>
+
+    <hr class="section-divider">
+
+    <h3>My Created Events</h3>
+    {% if my_events %}
+        <div class="event-list-container-admin">
+            {% for event in my_events %}
+                <div class="event-card-admin">
+                    <h4>{{ event.name }}</h4>
+                    <p class="event-meta"><strong>Date:</strong> {{ event.date.strftime('%Y-%m-%d %I:%M %p') }}</p>
+                    <p class="event-meta"><strong>Status:</strong> 
+                        <span class="status-{{ event.status.lower().replace(' ', '-') }}">{{ event.status }}</span>
+                    </p>
+                    <div class="event-actions">
+                        <a href="{{ url_for('event_details', event_id=event.id) }}" class="button-link-styled">View Details</a>
+                        {# Only show "Manage Certificates" if the event is Approved and in the past #}
+                        {% if event.status == 'Approved' and event.date < now %}
+                            <a href="{{ url_for('admin_manage_event_attendees', event_id=event.id) }}" class="button-link-styled">Manage Certificates</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have not created any events yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

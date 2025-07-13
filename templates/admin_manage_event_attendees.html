@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Event Attendees & Certificates - Admin{% endblock %}
+
+{% block content %}
+    <div class="main-content-container">
+        <h2>Manage Attendees for: {{ event.name }}</h2>
+        <p><strong>Event Date:</strong> {{ event.date.strftime('%Y-%m-%d %I:%M %p') }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+
+        {% if registrations %}
+            <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Registration ID</th>
+                        <th>Attendee Username</th>
+                        <th>Attendee Email</th>
+                        <th>Ticket ID</th>
+                        <th>Registration Date</th>
+                        <th>Payment Status</th>
+                        <th>Certificate Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg in registrations %}
+                    <tr>
+                        <td>{{ reg.id }}</td>
+                        <td>{{ reg.user.username if reg.user else 'N/A' }}</td>
+                        <td>{{ reg.user.email if reg.user else 'N/A' }}</td>
+                        <td>{{ reg.ticket_id if reg.ticket_id else 'N/A' }}</td>
+                        <td>{{ reg.registration_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <strong 
+                                {% if reg.payment_status == 'paid' %} style="color: green;"
+                                {% elif reg.payment_status == 'pending' %} style="color: orange;"
+                                {% else %} style="color: dimgray;" %}>
+                                {{ reg.payment_status.upper() }}
+                            </strong>
+                        </td>
+                        <td>
+                            {% if reg.certificate_path %}
+                                <span style="color: green;">Generated</span> ({{ reg.certificate_generated_at.strftime('%Y-%m-%d') }})
+                            {% else %}
+                                <span style="color: orange;">Not Generated</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if reg.certificate_path %}
+                                <a href="{{ url_for('download_certificate', file_path=reg.certificate_path) }}" target="_blank" class="button-link-styled">Download</a>
+                            {% else %}
+                                {# Option to generate if not already #}
+                                {% if reg.payment_status == 'paid' or event.price == 0 %}
+                                    <form method="POST" action="{{ url_for('admin_generate_event_certificate', registration_id=reg.id) }}" style="display:inline;">
+                                        {{ csrf_token() }} {# ADDED CSRF TOKEN HERE #}
+                                        <button type="submit" class="button-link-styled" style="background-color: #007bff; color: white;">Generate</button>
+                                    </form>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            {% endif %}
+                            {# Add option to delete registration if needed #}
+                            <form method="POST" action="{{ url_for('admin_delete_event_registration', registration_id=reg.id) }}" style="display:inline;">
+                                {{ csrf_token() }} {# ADDED CSRF TOKEN HERE #}
+                                <button type="submit" class="button-link-styled" style="background-color: #dc3545; color: white;" onclick="return confirm('Are you sure you want to delete this registration? This will also delete the certificate if it exists.');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No attendees have registered for this event yet.</p>
+        {% endif %}
+
+        <p style="margin-top: 20px;">
+            <a href="{{ url_for('admin_dashboard') }}" class="button-link-styled">Back to Admin Dashboard</a>
+        </p>
+    </div>
+{% endblock %}

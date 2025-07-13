@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Crawford University{% endblock %}
+
+{% block content %}
+<div class="login-page-container">
+    <div class="login-logo-wrapper">
+        <img src="{{ url_for('static', filename='images/image45.png') }}" alt="Crawford University Logo" class="login-page-logo">
+    </div>
+    
+    <h2>Login</h2>
+    
+    <form method="POST" action="{{ url_for('login') }}" class="login-form">
+        {{ form.hidden_tag() }} {# Renders CSRF token and any other hidden fields #}
+        <div class="form-group">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control") }}
+            {% if form.username.errors %}
+                <div class="errors">
+                    {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+            {% if form.password.errors %}
+                <div class="errors">
+                    {% for error in form.password.errors %}<span>{{ error }}</span>{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <br>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+    {# Optional: Links for registration or password reset #}
+    <p style="text-align: center; margin-top: 20px;">
+        Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+    </p>
+</div>
+{% endblock %}

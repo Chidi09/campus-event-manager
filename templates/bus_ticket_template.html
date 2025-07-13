@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bus Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .ticket-container {
+            width: 500px;
+            border: 2px dashed #333;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .ticket-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .ticket-header h2 {
+            color: #0056b3;
+            margin: 0;
+            font-size: 1.8em;
+        }
+        .ticket-header p {
+            color: #555;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .ticket-details {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .ticket-details div {
+            width: 50%;
+            padding: 5px 0;
+            box-sizing: border-box;
+        }
+        .ticket-details div strong {
+            display: block;
+            color: #333;
+            font-size: 0.9em;
+        }
+        .ticket-details div span {
+            color: #000;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .ticket-section {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .ticket-section h3 {
+            color: #0056b3;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        .qr-code {
+            display: block;
+            margin: 20px auto 0 auto;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 20px;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 60px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <img src="{{ url_for('static', filename='images/image45.png') }}" alt="University Logo" class="logo">
+        <div class="ticket-header">
+            <h2>Bus Ticket</h2>
+            <p>Crawford University Transport Service</p>
+        </div>
+
+        <div class="ticket-details">
+            <div>
+                <strong>Passenger:</strong>
+                <span>{{ booking.requester.username }}</span>
+            </div>
+            <div>
+                <strong>Bus Identifier:</strong>
+                <span>{{ booking.bus.identifier }}</span>
+            </div>
+            <div>
+                <strong>Date:</strong>
+                <span>{{ booking.requested_date.strftime('%Y-%m-%d') }}</span>
+            </div>
+            <div>
+                <strong>Time:</strong>
+                <span>{{ booking.pickup_time.strftime('%H:%M') }}</span>
+            </div>
+            <div>
+                <strong>From:</strong>
+                <span>{{ booking.pickup_location }}</span>
+            </div>
+            <div>
+                <strong>To:</strong>
+                <span>{{ booking.destination }}</span>
+            </div>
+            <div>
+                <strong>Passengers:</strong>
+                <span>{{ booking.number_of_passengers if booking.number_of_passengers else '1' }}</span>
+            </div>
+            <div>
+                <strong>Booking ID:</strong>
+                <span>{{ booking.id }}</span>
+            </div>
+        </div>
+
+        <div class="ticket-section">
+            <h3>Purpose of Travel:</h3>
+            <p>{{ booking.purpose }}</p>
+        </div>
+
+        <img class="qr-code" src="data:image/png;base64,{{ qr_code_base64 }}" alt="QR Code" width="80" height="80">
+
+        <p class="footer-note">Please present this ticket to the driver. Valid for one-time use.</p>
+    </div>
+</body>
+</html>

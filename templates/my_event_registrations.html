@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}My Event Registrations{% endblock %}
+
+{% block content %}
+<div class="main-content-container">
+    <h2>My Event Registrations</h2>
+
+    {% if registrations %}
+        <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Price</th>
+                    <th>Registration Date</th>
+                    <th>Ticket ID</th>
+                    <th>Payment Status</th>
+                    <th>Certificate/Ticket</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in registrations %}
+                <tr>
+                    <td>{{ reg.event.name if reg.event else 'N/A' }}</td>
+                    <td>{{ reg.event.date.strftime('%Y-%m-%d %H:%M') if reg.event else 'N/A' }}</td>
+                    <td>{{ reg.event.location if reg.event else 'N/A' }}</td>
+                    <td>
+                        {% if reg.event.price == 0 %}
+                            Free
+                        {% else %}
+                            ${{ "%.2f"|format(reg.event.price) }}
+                        {% endif %}
+                    </td>
+                    <td>{{ reg.registration_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ reg.ticket_id if reg.ticket_id else 'N/A' }}</td>
+                    <td>
+                        <strong 
+                            {% if reg.payment_status == 'paid' %} style="color: green;"
+                            {% elif reg.payment_status == 'pending' %} style="color: orange;"
+                            {% else %} style="color: dimgray;" {% endif %}>
+                            {{ reg.payment_status.upper() }}
+                        </strong>
+                    </td>
+                    <td>
+                        {% if reg.certificate_path %}
+                            <a href="{{ url_for('download_certificate', file_path=reg.certificate_path) }}" target="_blank" class="button-link-styled">Download Certificate</a>
+                        {% elif reg.payment_status == 'paid' or (reg.event and reg.event.price == 0) %}
+                            Not Generated Yet
+                        {% else %}
+                            Pending Payment
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url_for('cancel_rsvp_event', event_id=reg.event.id) }}" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="button-link-styled" style="background-color: #dc3545; color: white;" onclick="return confirm('Are you sure you want to cancel your RSVP for {{ (reg.event.name if reg.event else 'this event')|tojson }}?');">
+                                Cancel RSVP
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="margin-top: 20px;">You have not registered for any events yet.</p>
+        <p><a href="{{ url_for('list_events') }}" class="button-link-styled">Click here to view available events and register.</a></p>
+    {% endif %}
+
+    <p style="margin-top: 30px;">
+        <a href="{{ url_for('dashboard') }}" class="button-link-styled">Back to Dashboard</a>
+    </p>
+</div>
+{% endblock %}

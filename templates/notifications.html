@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Your Notifications</h1>
+
+    {% if notifications %}
+        <div class="list-group">
+            {% for notification in notifications %}
+            <div class="list-group-item list-group-item-action {% if not notification.is_read %}list-group-item-info{% endif %} mb-2 rounded shadow-sm">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ notification.message }}</h5>
+                    <small class="text-muted">{{ notification.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                <small class="text-muted">Type: {{ notification.notification_type | default('General') }}</small>
+                {% if notification.related_id %}
+                    {% if notification.notification_type == 'event_status_update' %}
+                        <p class="mb-1"><a href="{{ url_for('event_details', event_id=notification.related_id) }}" class="btn btn-sm btn-outline-primary mt-2">View Event</a></p>
+                    {% elif notification.notification_type == 'booking_status_update' %}
+                        <p class="mb-1"><a href="{{ url_for('my_hall_bookings') }}" class="btn btn-sm btn-outline-primary mt-2">View My Hall Bookings</a> (or Bus)</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No notifications yet!</p>
+    {% endif %}
+</div>
+{% endblock %}

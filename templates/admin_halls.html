@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Halls - Admin{% endblock %}
+
+{% block content %}
+<div class="main-content-container"> {# Ensures consistent page width and padding #}
+    <h2>Manage Campus Halls</h2>
+
+    <div class="form-card">
+        <h3>Add New Hall</h3>
+        <form method="POST" action="{{ url_for('admin_manage_halls') }}" class="styled-form">
+            {{ form.hidden_tag() }} 
+
+            <div class="form-group">
+                {{ form.name.label }} {{ form.name(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.capacity.label }} {{ form.capacity(class="form-control") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.location_details.label }} {{ form.location_details(class="form-control", rows=3) }}
+            </div>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+
+    <hr class="section-divider"> {# Optional visual separator #}
+
+    <h3>Existing Halls</h3>
+    {% if halls %}
+        <div class="resource-grid-container"> {# Container for hall cards #}
+            {% for hall in halls %}
+            <div class="resource-card hall-card"> {# General resource card + specific hall-card class if needed #}
+                <h4>{{ hall.name }}</h4>
+                <p class="resource-meta"><strong>ID:</strong> {{ hall.id }}</p>
+                <p class="resource-meta"><strong>Capacity:</strong> {{ hall.capacity }}</p>
+                <p class="resource-detail">
+                    <strong>Location:</strong> {{ hall.location_details if hall.location_details else 'N/A' }}
+                </p>
+                <div class="resource-actions">
+                    {# Placeholders for future Edit/Delete functionality #}
+                    <a href="#" class="button-link-styled button-edit">Edit (Upcoming)</a>
+                    <a href="#" class="button-link-styled button-delete">Delete (Upcoming)</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No halls have been added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

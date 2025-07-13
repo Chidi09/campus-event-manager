@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}DSA Dashboard - Campus Events{% endblock %}
+
+{% block content %}
+    <h2>DSA Approval Dashboard</h2>
+    <p>Welcome, {{ current_user.username }}!</p>
+
+    <h3>Events Pending Your Approval</h3>
+    {% if pending_events %}
+        <table border="1" style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Submitted By</th>
+                    <th>Date & Time</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in pending_events %}
+                <tr>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.creator.username if event.creator else 'N/A' }}</td>
+                    <td>{{ event.date.strftime('%Y-%m-%d') }} at {{ event.date.strftime('%H:%M') }}</td>
+                    <td>{{ event.location }}</td>
+                    <td>{{ event.description | truncate(100) }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('dsa_approve_event', event_id=event.id) }}" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" style="background-color: green; color: white;">Approve</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('dsa_reject_event', event_id=event.id) }}" style="display:inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" style="background-color: red; color: white;">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No events are currently pending your approval.</p>
+    {% endif %}
+
+    {# Optional: Processed Events Section #}
+    {#
+    <h3>My Processed Events</h3>
+    ... list events where dsa_approver_id is current_user.id ...
+    #}
+{% endblock %}

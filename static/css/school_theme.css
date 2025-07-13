@@ -1,0 +1,1608 @@
+/* static/css/school_theme.css - REFACTORED FOR DARK MODE & ADMIN ACTION LINKS */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+    /* Light Theme (Default) - Based on your provided CSS */
+    --primary-blue: #002D5A;       /* Main dark blue (e.g., headers, h2/h3) */
+    --secondary-blue: #004A98;     /* Lighter blue (e.g., nav, buttons) */
+    --button-hover-blue: #003366;  /* Darker blue for button hover */
+    --accent-blue-light: #e9eff8;  /* Very light blue (e.g., table headers bg) */
+    
+    --text-on-dark-bg: #ffffff;    /* White text (e.g., on header, nav, buttons) */
+    --text-on-light-bg: #333333;   /* Default dark text (e.g., body text) */
+    --heading-text-color: var(--primary-blue); /* For h2, h3 */
+    --table-header-text: var(--primary-blue);
+
+    --page-bg: #f4f7fc;            /* Light greyish-blue page background */
+    --content-bg: #ffffff;         /* White background for content boxes */
+    --border-color: #dddddd;       /* Standard border color */
+    
+    --link-color: var(--secondary-blue); /* Default link color */
+    --link-hover-color: var(--primary-blue); /* Link hover color */
+
+    /* Flash Messages - Light Theme */
+    --flash-success-bg: #d4edda;
+    --flash-success-text: #155724;
+    --flash-success-border: #c3e6cb;
+    --flash-danger-bg: #f8d7da;
+    --flash-danger-text: #721c24;
+    --flash-danger-border: #f5c6cb;
+    --flash-warning-bg: #fff3cd;
+    --flash-warning-text: #856404;
+    --flash-warning-border: #ffeeba;
+    --flash-info-bg: #d1ecf1;
+    --flash-info-text: #0c5460;
+    --flash-info-border: #bee5eb;
+
+    /* Transitions for smooth theme switching */
+    --theme-transition-duration: 0.3s;
+}
+
+body.dark-mode {
+    /* Dark Theme Overrides */
+    --primary-blue: #0052a0;       /* Slightly lighter/brighter blue for dark mode primary */
+    --secondary-blue: #006cbf;     /* Lighter blue for dark mode secondary */
+    --button-hover-blue: #0052a0;
+    --accent-blue-light: #2c3e50;  /* Darker accent for table headers bg in dark mode */
+
+    --text-on-light-bg: #e0e0e0;   /* Light grey text for general text on dark backgrounds */
+    --heading-text-color: #79bcf0; /* Brighter blue for headings in dark mode */
+    --table-header-text: #c0dfff;  /* Lighter text for table headers in dark mode */
+
+    --page-bg: #121212;            /* Very dark page background */
+    --content-bg: #1e1e1e;         /* Darker content box background */
+    --border-color: #444444;       /* Lighter border color for dark mode */
+
+    --link-color: #60a5fa;         /* Brighter link color for dark mode */
+    --link-hover-color: #93c5fd;   /* Brighter link hover */
+
+    /* Flash Messages - Dark Theme */
+    --flash-success-bg: #1a3a1f;
+    --flash-success-text: #a3d7af;
+    --flash-success-border: #2c5a32;
+    --flash-danger-bg: #4a1a20;
+    --flash-danger-text: #f3a9b1;
+    --flash-danger-border: #7d2a36;
+    --flash-warning-bg: #4d380b;
+    --flash-warning-text: #ffd975;
+    --flash-warning-border: #876d2f;
+    --flash-info-bg: #113c4a;
+    --flash-info-text: #9dd5e6;
+    --flash-info-border: #1e687d;
+}
+
+/* General Body Styles */
+body {
+    font-family: 'Open Sans', sans-serif; /* Use the imported font */
+    margin: 0;
+    padding: 0;
+    background-color: var(--page-bg);
+    color: var(--text-on-light-bg);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif; /* Or a different font for headings */
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-blue);
+    color: var(--text-on-dark-bg);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration), box-shadow var(--theme-transition-duration);
+    position: sticky; /* Make the header stick */
+    top: 0; /* Stick to the top of the viewport */
+    z-index: 1000; /* Ensure it stays above other content */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add a subtle shadow when sticky */
+}
+
+header img.header-logo {
+    height: 65px;
+    margin-right: 20px;
+}
+
+header h1.header-title {
+    font-size: 1.8em;
+    margin: 0;
+    font-weight: bold;
+    color: var(--text-on-dark-bg); 
+    transition: color var(--theme-transition-duration);
+}
+
+body.dark-mode header {
+    box-shadow: 0 2px 5px rgba(255,255,255,0.05); /* Lighter shadow for dark mode */
+}
+
+/* Navigation Styles */
+nav {
+    background-color: var(--secondary-blue);
+    padding: 10px 20px;
+    transition: background-color var(--theme-transition-duration);
+}
+
+nav a {
+    color: var(--text-on-dark-bg);
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 4px; 
+    display: inline-block; 
+    position: relative; 
+    transition: transform 0.2s ease-out, 
+                color var(--theme-transition-duration) ease-out; 
+}
+
+nav a:hover {
+    text-decoration: none; 
+    color: var(--link-hover-color); 
+    transform: translateY(-2px); 
+}
+
+nav a:active {
+    transform: translateY(0px); 
+    color: var(--primary-blue); 
+}
+
+/* Content Area Styles */
+.content {
+    padding: 20px;
+    margin: 20px;
+    background-color: var(--content-bg);
+    color: var(--text-on-light-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+h2, h3 { /* This applies to h2 and h3 within .content and elsewhere if not overridden */
+    color: var(--heading-text-color);
+    transition: color var(--theme-transition-duration);
+}
+
+/* === MODIFIED SECTION FOR BUTTONS AND BUTTON-LIKE LINKS === */
+/* Button Styles - Now includes .admin-action-link */
+button, 
+input[type="submit"],
+.admin-action-link { /* Added .admin-action-link here */
+    display: inline-block; /* Ensures <a> tags with this class behave like buttons */
+    background-color: var(--secondary-blue);
+    color: var(--text-on-dark-bg);
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none; /* Removes underline for <a> tags with this class */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color var(--theme-transition-duration) ease-out,
+                transform 0.15s ease-out,
+                box-shadow var(--theme-transition-duration) ease-out;
+    text-align: center; /* Center text for <a> tags styled as buttons */
+    margin-bottom: 10px; /* Good for links in <p> tags to have some spacing */
+    margin-right: 5px; /* Add a little space if multiple buttons are side-by-side */
+}
+
+button:hover, 
+input[type="submit"]:hover,
+.admin-action-link:hover { /* Added .admin-action-link:hover here */
+    background-color: var(--button-hover-blue);
+    color: var(--text-on-dark-bg); /* Ensure text color if needed */
+    text-decoration: none; /* Ensure no underline for <a> tags on hover */
+    transform: translateY(-3px) scale(1.03); 
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+button:active, 
+input[type="submit"]:active,
+.admin-action-link:active { /* Added .admin-action-link:active here */
+    background-color: var(--primary-blue);
+    color: var(--text-on-dark-bg); /* Ensure text color if needed */
+    transform: translateY(-1px) scale(0.99); 
+    box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+}
+/* === END OF MODIFIED SECTION === */
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+    transition: border-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+th {
+    background-color: var(--accent-blue-light);
+    color: var(--table-header-text);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+/* Flash Messages Styling */
+.flash-messages { 
+    margin: 0 20px; 
+    padding: 0; 
+}
+.flash-messages li {
+    list-style: none;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration), border-color var(--theme-transition-duration);
+}
+.flash-success { background-color: var(--flash-success-bg); color: var(--flash-success-text); border-color: var(--flash-success-border); }
+.flash-danger  { background-color: var(--flash-danger-bg);  color: var(--flash-danger-text);  border-color: var(--flash-danger-border);  }
+.flash-warning { background-color: var(--flash-warning-bg); color: var(--flash-warning-text); border-color: var(--flash-warning-border); }
+.flash-info    { background-color: var(--flash-info-bg);    color: var(--flash-info-text);    border-color: var(--flash-info-border);    }
+
+/* Login Page Specific Styles */
+.login-page-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 50px auto 0 auto;
+    padding: 30px;
+    background-color: var(--content-bg);
+    color: var(--text-on-light-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+.login-logo-wrapper {
+    margin-bottom: 25px;
+}
+
+.login-page-logo {
+    max-height: 160px; /* Your increased size */
+}
+
+.login-page-container h2 {
+    margin-bottom: 25px;
+    color: var(--heading-text-color);
+    font-size: 1.8em;
+    transition: color var(--theme-transition-duration);
+}
+
+.login-form div {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: var(--text-on-light-bg);
+    transition: color var(--theme-transition-duration);
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--page-bg); 
+    color: var(--text-on-light-bg);   
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration), border-color var(--theme-transition-duration);
+}
+
+.login-form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+}/* static/css/school_theme.css - REFACTORED FOR DARK MODE & ADMIN ACTION LINKS */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+    /* Light Theme (Default) - Based on your provided CSS */
+    --primary-blue: #002D5A;       /* Main dark blue (e.g., headers, h2/h3) */
+    --secondary-blue: #004A98;     /* Lighter blue (e.g., nav, buttons) */
+    --button-hover-blue: #003366;  /* Darker blue for button hover */
+    --accent-blue-light: #e9eff8;  /* Very light blue (e.g., table headers bg) */
+    
+    --text-on-dark-bg: #ffffff;    /* White text (e.g., on header, nav, buttons) */
+    --text-on-light-bg: #333333;   /* Default dark text (e.g., body text) */
+    --heading-text-color: var(--primary-blue); /* For h2, h3 */
+    --table-header-text: var(--primary-blue);
+
+    --page-bg: #f4f7fc;            /* Light greyish-blue page background */
+    --content-bg: #ffffff;         /* White background for content boxes */
+    --border-color: #dddddd;       /* Standard border color */
+    
+    --link-color: var(--secondary-blue); /* Default link color */
+    --link-hover-color: var(--primary-blue); /* Link hover color */
+
+    /* Flash Messages - Light Theme */
+    --flash-success-bg: #d4edda;
+    --flash-success-text: #155724;
+    --flash-success-border: #c3e6cb;
+    --flash-danger-bg: #f8d7da;
+    --flash-danger-text: #721c24;
+    --flash-danger-border: #f5c6cb;
+    --flash-warning-bg: #fff3cd;
+    --flash-warning-text: #856404;
+    --flash-warning-border: #ffeeba;
+    --flash-info-bg: #d1ecf1;
+    --flash-info-text: #0c5460;
+    --flash-info-border: #bee5eb;
+
+    /* Transitions for smooth theme switching */
+    --theme-transition-duration: 0.3s;
+}
+
+body.dark-mode {
+    /* Dark Theme Overrides */
+    --primary-blue: #0052a0;       /* Slightly lighter/brighter blue for dark mode primary */
+    --secondary-blue: #006cbf;     /* Lighter blue for dark mode secondary */
+    --button-hover-blue: #0052a0;
+    --accent-blue-light: #2c3e50;  /* Darker accent for table headers bg in dark mode */
+
+    --text-on-light-bg: #e0e0e0;   /* Light grey text for general text on dark backgrounds */
+    --heading-text-color: #79bcf0; /* Brighter blue for headings in dark mode */
+    --table-header-text: #c0dfff;  /* Lighter text for table headers in dark mode */
+
+    --page-bg: #121212;            /* Very dark page background */
+    --content-bg: #1e1e1e;         /* Darker content box background */
+    --border-color: #444444;       /* Lighter border color for dark mode */
+
+    --link-color: #60a5fa;         /* Brighter link color for dark mode */
+    --link-hover-color: #93c5fd;   /* Brighter link hover */
+
+    /* Flash Messages - Dark Theme */
+    --flash-success-bg: #1a3a1f;
+    --flash-success-text: #a3d7af;
+    --flash-success-border: #2c5a32;
+    --flash-danger-bg: #4a1a20;
+    --flash-danger-text: #f3a9b1;
+    --flash-danger-border: #7d2a36;
+    --flash-warning-bg: #4d380b;
+    --flash-warning-text: #ffd975;
+    --flash-warning-border: #876d2f;
+    --flash-info-bg: #113c4a;
+    --flash-info-text: #9dd5e6;
+    --flash-info-border: #1e687d;
+}
+
+/* General Body Styles */
+body {
+    font-family: 'Open Sans', sans-serif; /* Use the imported font */
+    margin: 0;
+    padding: 0;
+    background-color: var(--page-bg);
+    color: var(--text-on-light-bg);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif; /* Or a different font for headings */
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-blue);
+    color: var(--text-on-dark-bg);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+header img.header-logo {
+    height: 65px;
+    margin-right: 20px;
+}
+
+header h1.header-title {
+    font-size: 1.8em;
+    margin: 0;
+    font-weight: bold;
+    color: var(--text-on-dark-bg); 
+    transition: color var(--theme-transition-duration);
+}
+
+/* Navigation Styles */
+nav {
+    background-color: var(--secondary-blue);
+    padding: 10px 20px;
+    transition: background-color var(--theme-transition-duration);
+}
+
+nav a {
+    color: var(--text-on-dark-bg);
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 4px; 
+    display: inline-block; 
+    position: relative; 
+    transition: transform 0.2s ease-out, 
+                color var(--theme-transition-duration) ease-out; 
+}
+
+nav a:hover {
+    text-decoration: none; 
+    color: var(--link-hover-color); 
+    transform: translateY(-2px); 
+}
+
+nav a:active {
+    transform: translateY(0px); 
+    color: var(--primary-blue); 
+}
+
+/* Content Area Styles */
+.content {
+    padding: 20px;
+    margin: 20px;
+    background-color: var(--content-bg);
+    color: var(--text-on-light-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+h2, h3 { /* This applies to h2 and h3 within .content and elsewhere if not overridden */
+    color: var(--heading-text-color);
+    transition: color var(--theme-transition-duration);
+}
+
+/* Full-Width Hero Section for Homepage */
+.hero-section-full-width {
+    width: 100%;
+    padding: 80px 30px;
+    background: linear-gradient(to bottom right, rgba(0,45,90,0.8), rgba(0,74,152,0.8)), 
+                url('/static/images/hero-background.jpg') no-repeat center center;
+    background-size: cover;
+    color: white;
+    text-align: center;
+    box-sizing: border-box; /* Ensures padding is included in the width/height */
+    margin-bottom: 20px; /* Space before the next content section */
+    
+    /* Glassmorphism Effect */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.hero-section-full-width .hero-content {
+    max-width: 900px; /* Keeps the text content within a readable width */
+    margin: 0 auto; /* Centers the text content block */
+}
+
+.hero-section-full-width h1 {
+    font-size: 2.8em; /* Larger heading for hero */
+    margin-bottom: 0.5em;
+    color: inherit; /* Inherits color from .hero-section-full-width */
+}
+
+.hero-section-full-width p.lead {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 1.5em;
+    color: inherit; /* Inherits color */
+}
+
+/* Container for standard width content (like your event list below the hero) */
+.main-content-container {
+    max-width: 1100px; /* Or whatever your standard content width is */
+    margin: 0 auto;
+    padding: 20px;
+    /* This is similar to your existing .content class, you might reuse or adapt .content */
+}
+/* === MODIFIED SECTION FOR BUTTONS AND BUTTON-LIKE LINKS === */
+/* Button Styles - Now includes .admin-action-link */
+button, 
+input[type="submit"],
+.admin-action-link { /* Added .admin-action-link here */
+    display: inline-block; /* Ensures <a> tags with this class behave like buttons */
+    background-color: var(--secondary-blue);
+    color: var(--text-on-dark-bg);
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none; /* Removes underline for <a> tags with this class */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color var(--theme-transition-duration) ease-out,
+                transform 0.15s ease-out,
+                box-shadow var(--theme-transition-duration) ease-out;
+    text-align: center; /* Center text for <a> tags styled as buttons */
+    margin-bottom: 10px; /* Good for links in <p> tags to have some spacing */
+    margin-right: 5px; /* Add a little space if multiple buttons are side-by-side */
+}
+
+button:hover, 
+input[type="submit"]:hover,
+.admin-action-link:hover { /* Added .admin-action-link:hover here */
+    background-color: var(--button-hover-blue);
+    color: var(--text-on-dark-bg); /* Ensure text color if needed */
+    text-decoration: none; /* Ensure no underline for <a> tags on hover */
+    transform: translateY(-3px) scale(1.03); 
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+button:active, 
+input[type="submit"]:active,
+.admin-action-link:active { /* Added .admin-action-link:active here */
+    background-color: var(--primary-blue);
+    color: var(--text-on-dark-bg); /* Ensure text color if needed */
+    transform: translateY(-1px) scale(0.99); 
+    box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+}
+/* === END OF MODIFIED SECTION === */
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+    transition: border-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+th {
+    background-color: var(--accent-blue-light);
+    color: var(--table-header-text);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+/* Flash Messages Styling */
+.flash-messages { 
+    margin: 0 20px; 
+    padding: 0; 
+}
+.flash-messages li {
+    list-style: none;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration), border-color var(--theme-transition-duration);
+}
+.flash-success { background-color: var(--flash-success-bg); color: var(--flash-success-text); border-color: var(--flash-success-border); }
+.flash-danger  { background-color: var(--flash-danger-bg);  color: var(--flash-danger-text);  border-color: var(--flash-danger-border);  }
+.flash-warning { background-color: var(--flash-warning-bg); color: var(--flash-warning-text); border-color: var(--flash-warning-border); }
+.flash-info    { background-color: var(--flash-info-bg);    color: var(--flash-info-text);    border-color: var(--flash-info-border);    }
+
+/* Login Page Specific Styles */
+.login-page-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 50px auto 0 auto;
+    padding: 30px;
+    background-color: var(--content-bg);
+    color: var(--text-on-light-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+
+.login-logo-wrapper {
+    margin-bottom: 25px;
+}
+
+.login-page-logo {
+    max-height: 160px; /* Your increased size */
+}
+
+.login-page-container h2 {
+    margin-bottom: 25px;
+    color: var(--heading-text-color);
+    font-size: 1.8em;
+    transition: color var(--theme-transition-duration);
+}
+
+.login-form div {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: var(--text-on-light-bg);
+    transition: color var(--theme-transition-duration);
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--page-bg); 
+    color: var(--text-on-light-bg);   
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration), border-color var(--theme-transition-duration);
+}
+
+.login-form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+}
+
+/* === STYLES FOR ENHANCED DATE/TIME INPUTS === */
+
+.styled-form .form-group.styled-input-group {
+    /* You can add specific wrapper styles here if needed, e.g., a subtle border or background */
+    /* For now, we'll focus on the label and input within */
+}
+
+.styled-form .form-group.styled-input-group label {
+    font-size: 0.8em; /* Smaller label */
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--secondary-blue); /* Use a theme color for emphasis */
+    margin-bottom: 4px; /* Less space between label and input */
+    display: block;
+}
+body.dark-mode .styled-form .form-group.styled-input-group label {
+    color: var(--link-color); /* Brighter label color for dark mode */
+}
+
+
+.styled-form .form-group.styled-input-group input[type="date"],
+.styled-form .form-group.styled-input-group input[type="time"] {
+    border: none; /* Remove the default input border */
+    border-bottom: 2px solid var(--primary-blue); /* Underline style */
+    border-radius: 0; /* No rounded corners for this style */
+    padding: 8px 2px 6px 2px; /* Adjust padding: top, right, bottom, left */
+    font-size: 1.05em; /* Slightly larger font for the input value */
+    background-color: transparent; /* Make background transparent to inherit from parent */
+    color: var(--text-on-light-bg); /* Inherit text color */
+    width: 100%; /* Ensure it takes full width of its column */
+    box-sizing: border-box;
+    transition: border-color var(--theme-transition-duration); /* Transition for focus */
+}
+
+.styled-form .form-group.styled-input-group input[type="date"]:focus,
+.styled-form .form-group.styled-input-group input[type="time"]:focus {
+    outline: none; /* Remove default browser outline */
+    border-bottom-color: var(--link-hover-color); /* Change underline color on focus */
+}
+
+/* Styling for the native date/time picker indicators (browser-specific) */
+/* This attempts to make them blend more with the theme */
+.styled-form .form-group.styled-input-group input[type="date"]::-webkit-calendar-picker-indicator,
+.styled-form .form-group.styled-input-group input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6; /* Make the default icon slightly less prominent */
+    cursor: pointer;
+    padding: 0; /* Adjust if needed */
+}
+body.dark-mode .styled-form .form-group.styled-input-group input[type="date"]::-webkit-calendar-picker-indicator,
+body.dark-mode .styled-form .form-group.styled-input-group input[type="time"]::-webkit-calendar-picker-indicator {
+    /* For dark mode, you might need to make icons lighter if possible, often by using filter */
+    /* filter: invert(1) brightness(0.8); */ /* Example: This can make dark icons lighter - experiment */
+    opacity: 0.8;
+}
+
+/* Alternative if .form-page-logo is display: block; */
+.form-page-logo {
+    max-height: 80px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* === END OF NEW STYLES FOR DATE/TIME === */
+/* Event Card Layout */
+.event-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px; /* Space between cards */
+    /* justify-content: space-between; /* Distributes space nicely */
+}
+
+.event-card {
+    background-color: var(--content-bg); /* Uses theme variable for card background */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    /* Flexbox for card width calculation in a row */
+    flex-basis: calc(33.333% - 20px); /* For 3 cards per row, accounting for gap. Adjust as needed. */
+    min-width: 280px; /* Minimum width before breaking too much */
+    box-sizing: border-box; /* Important */
+    margin-bottom: 20px; /* If not using gap property effectively or for fallback */
+    
+    display: flex; /* Allows use of flex-grow on description and push button to bottom */
+    flex-direction: column; /* Stack card content vertically */
+    
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.event-card:hover {
+    transform: translateY(-6px); /* Slightly more lift for cards */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+.event-card h3 {
+    font-size: 1.3em; /* Slightly adjusted for card context */
+    color: var(--primary-blue); /* Uses theme variable */
+    margin-top: 0;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+/* Ensure dark mode heading color applies here too if different */
+body.dark-mode .event-card h3 {
+    color: var(--heading-text-color); /* Use the dark mode heading color variable */
+}
+
+
+.event-card .event-meta {
+    font-size: 0.85em;
+    /* color: #555; */ /* Old hardcoded color */
+    color: var(--text-on-light-bg); /* Will be dark on light, light on dark */
+    opacity: 0.8; /* Make meta text slightly less prominent */
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.event-card .event-description {
+    font-size: 0.9em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* This makes the description take up available vertical space */
+}
+
+.event-card .rsvp-form-container {
+    margin-top: auto; /* This pushes the RSVP button to the bottom of the card due to flex-grow on description */
+}
+
+.event-card .rsvp-form button,
+.event-card .button-secondary { /* You might want a different style for cancel button */
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9em;
+}
+
+/* Example of a secondary button style if you want "Cancel RSVP" to look different */
+.event-card .button-secondary {
+    background-color: transparent;
+    color: var(--secondary-blue);
+    border: 1px solid var(--secondary-blue);
+    transition: background-color var(--theme-transition-duration), color var(--theme-transition-duration);
+}
+.event-card .button-secondary:hover {
+    background-color: var(--accent-blue-light);
+    color: var(--primary-blue);
+    transform: translateY(-2px) scale(1.01); /* Less dramatic than primary buttons */
+    box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+}
+body.dark-mode .event-card .button-secondary {
+    color: var(--link-color);
+    border-color: var(--link-color);
+}
+body.dark-mode .event-card .button-secondary:hover {
+    background-color: var(--accent-blue-light); /* This accent is dark in dark mode */
+    color: var(--link-hover-color);
+}
+
+
+/* Responsive adjustments for the card grid */
+@media (max-width: 992px) { /* For tablets */
+    .event-card {
+        flex-basis: calc(50% - 15px); /* 2 cards per row, adjust gap calculation */
+    }
+}
+
+@media (max-width: 768px) { /* For mobile devices */
+    .event-card {
+        flex-basis: 100%; /* 1 card per row */
+    }
+    .hero-section-full-width h1 { /* Adjust hero heading for smaller screens */
+        font-size: 2em;
+    }
+    .hero-section-full-width p.lead {
+        font-size: 1em;
+    }
+}
+
+/* === NEW APPLE-INSPIRED LIST STYLES FOR BUSES === */
+
+.page-header-block {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.page-header-block h2 {
+    font-size: 2.2em; /* Larger page title */
+    margin-bottom: 10px;
+}
+
+.page-header-block .page-subtitle {
+    font-size: 1.1em;
+    color: var(--text-on-light-bg);
+    opacity: 0.8;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.apple-style-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Space between bus items */
+}
+
+.bus-list-item {
+    background-color: var(--content-bg);
+    border-radius: 12px; /* More rounded corners, common in Apple's UI */
+    padding: 25px 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07); /* Softer, slightly larger shadow */
+    display: flex;
+    flex-wrap: wrap; /* Allow actions to wrap on smaller screens */
+    justify-content: space-between; /* Pushes details and actions apart */
+    align-items: center; /* Vertically aligns content if heights differ */
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+    border: 1px solid var(--border-color); /* Subtle border */
+}
+
+.bus-list-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.bus-item-details {
+    flex-grow: 1;
+    padding-right: 25px; /* Space before the action button on wider screens */
+}
+
+.bus-list-item .bus-identifier { /* This is an h4 in the HTML */
+    font-size: 1.3em; /* Prominent identifier */
+    color: var(--primary-blue);
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-weight: 600; 
+}
+body.dark-mode .bus-list-item .bus-identifier {
+    color: var(--heading-text-color); /* Use appropriate dark mode heading variable */
+}
+
+.bus-list-item .bus-meta {
+    font-size: 0.9em;
+    color: var(--text-on-light-bg);
+    opacity: 0.85; /* Slightly more visible than before */
+    margin-bottom: 8px; /* Consistent spacing between meta items */
+    line-height: 1.4; /* Tighter line height for these items */
+}
+
+.bus-list-item .bus-meta strong { /* Styles the "Label:" part */
+    font-weight: 600; /* Or 700 for even bolder */
+    color: var(--text-on-light-bg); /* Make label color match value color or be slightly darker */
+    opacity: 1; /* Ensure label is fully opaque */
+    margin-right: 6px; /* Space between "Label:" and its value */
+}
+
+.bus-list-item .bus-description {
+    font-size: 0.9em;
+    color: var(--text-on-light-bg);
+    margin-top: 10px;
+    line-height: 1.5; 
+}
+
+.bus-list-item .bus-description strong { /* Styles the "Details/Route:" label itself */
+    display: block; /* Makes the label take its own line */
+    font-weight: 600;
+    color: var(--text-on-light-bg);
+    opacity: 1;
+    margin-bottom: 4px; /* Space between this label and the actual route details text */
+}
+
+.bus-item-actions {
+    flex-shrink: 0; /* Prevents the button container from shrinking */
+    margin-left: 20px; /* Ensures some space if details are short */
+}
+
+/* Define or Ensure .button-primary styles are prominent */
+/* If you don't have .button-primary defined prominently, use/adapt .admin-action-link or define .button-primary: */
+.button-primary { 
+    display: inline-block; 
+    background-color: var(--primary-blue); /* Use a prominent blue */
+    color: var(--text-on-dark-bg);
+    padding: 12px 28px; /* Generous padding */
+    border: none;
+    border-radius: 8px; 
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: background-color var(--theme-transition-duration) ease-out,
+                transform 0.15s ease-out,
+                box-shadow var(--theme-transition-duration) ease-out;
+    text-align: center;
+}
+.button-primary:hover {
+    background-color: var(--button-hover-blue); 
+    transform: translateY(-2px) scale(1.02); 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+}
+.button-primary:active {
+    background-color: #001a33; /* Even darker shade of primary blue */
+    transform: translateY(0px) scale(0.99); 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+body.dark-mode .button-primary { /* Adjust for dark mode if needed */
+    background-color: var(--secondary-blue); 
+    color: var(--text-on-dark-bg);
+}
+body.dark-mode .button-primary:hover {
+    background-color: var(--primary-blue); 
+}
+
+
+/* Responsive adjustments for the bus list items */
+@media (max-width: 768px) {
+    .bus-list-item {
+        flex-direction: column; 
+        align-items: flex-start; 
+    }
+    .bus-list-item {
+        flex-direction: column; /* Stack details and actions vertically */
+        align-items: flex-start; /* Align content to the start */
+        padding: 20px;
+    }
+    .bus-item-details {
+        padding-right: 0;
+        margin-bottom: 20px; 
+        width: 100%;
+    }
+    .bus-item-details {
+        padding-right: 0; /* No right padding when stacked */
+        margin-bottom: 20px; /* Space between details and button when stacked */
+        width: 100%;
+    }
+    .bus-item-actions {
+        width: 100%; /* Make button container full width */
+        margin-left: 0; /* No left margin when stacked */
+    }
+    .bus-item-actions {
+        width: 100%; 
+        margin-left: 0; 
+    }
+    .bus-item-actions .button-primary { /* Make button full width on mobile */
+        width: 100%;
+        box-sizing: border-box; /* Ensure padding is included in width */
+    }
+    .page-header-block h2 {
+        font-size: 1.8em;
+    }
+    .page-header-block .page-subtitle {
+        font-size: 1em;
+    }
+}
+
+/* Event Card Layout */
+.event-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px; /* Space between cards */
+    /* Or use margin on cards if gap is not supported in an older browser you need to support */
+    /* justify-content: space-between; /* Uncomment if you prefer space-between distribution */
+}
+
+.event-card {
+    background-color: var(--content-bg); /* Uses theme variable for card background */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    /* Flexbox for card width calculation in a row */
+    flex-basis: calc(33.333% - 17px); /* For 3 cards per row, (25px gap * 2/3) ~ 16.67px. Adjust if needed. */
+    min-width: 280px; /* Minimum width before breaking too much */
+    box-sizing: border-box; /* Important for width calculation */
+    
+    display: flex; 
+    flex-direction: column; /* Stack card content vertically */
+    
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+.event-card:hover {
+    transform: translateY(-6px); /* Slightly more lift for cards */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+.event-card h3 {
+    font-size: 1.3em; 
+    color: var(--primary-blue); /* Uses theme variable */
+    margin-top: 0;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+body.dark-mode .event-card h3 { /* Ensure dark mode heading color applies */
+    color: var(--heading-text-color); 
+}
+
+.event-card .event-meta {
+    font-size: 0.85em;
+    color: var(--text-on-light-bg); 
+    opacity: 0.8; /* Make meta text slightly less prominent */
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.event-card .event-description {
+    font-size: 0.9em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* This makes the description take up available vertical space */
+}
+
+.event-card .rsvp-form-container {
+    margin-top: auto; /* This pushes the RSVP button to the bottom of the card */
+}
+
+/* Styles for buttons within cards, inheriting general button styles but can be overridden */
+.event-card .rsvp-form button,
+.event-card .button-secondary { 
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9em;
+    /* Other button styles like background, color, animation will be inherited */
+}
+
+/* Example of a secondary button style if you want "Cancel RSVP" to look different */
+.event-card .button-secondary {
+    background-color: transparent; /* Make it look different */
+    color: var(--secondary-blue);
+    border: 1px solid var(--secondary-blue);
+}
+.event-card .button-secondary:hover {
+    background-color: var(--accent-blue-light); /* Use a light accent for hover */
+    color: var(--primary-blue);
+    /* Keep existing transform/shadow from general button hover or define new ones */
+}
+body.dark-mode .event-card .button-secondary {
+    color: var(--link-color);
+    border-color: var(--link-color);
+}
+body.dark-mode .event-card .button-secondary:hover {
+    background-color: var(--accent-blue-light); /* accent-blue-light is dark in dark mode */
+    color: var(--link-hover-color);
+}
+
+/* Responsive adjustments for the card grid */
+@media (max-width: 992px) { /* For tablets */
+    .event-card {
+        flex-basis: calc(50% - 13px); /* 2 cards per row, (25px gap * 1/2) ~ 12.5px */
+    }
+}
+
+@media (max-width: 768px) { /* For mobile devices */
+    .event-card {
+        flex-basis: 100%; /* 1 card per row, gap doesn't apply horizontally here */
+        margin-bottom: 25px; /* Ensure spacing when stacked */
+    }
+    .event-list-container {
+        gap: 0; /* Remove gap if margin-bottom on cards handles stacking */
+    }
+    .hero-section-full-width h1 { 
+        font-size: 2em;
+    }
+    .hero-section-full-width p.lead {
+        font-size: 1em;
+    }
+}
+
+/* Make action links within resource cards take full width */
+.resource-actions .admin-action-link {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't make it overflow */
+    margin-bottom: 0; /* Reset bottom margin if it's the only item in resource-actions */
+    margin-right: 0; /* Reset right margin */
+}
+
+
+/* === NEW STYLES FOR TWO-COLUMN FORM LAYOUTS === */
+
+.styled-form .form-row {
+    display: flex;
+    flex-wrap: wrap; /* Allows columns to stack on smaller screens */
+    gap: 20px;       /* Space between columns in the same row */
+    margin-bottom: 0; /* Remove bottom margin from the row itself, handled by groups inside */
+}
+
+.styled-form .form-group { /* This is the style for single, full-width form elements */
+    margin-bottom: 18px; /* Default spacing for form groups */
+}
+
+.styled-form .form-row .form-group.column {
+    flex: 1; /* Each column will try to take equal space */
+    min-width: calc(50% - 10px); /* Attempts to fit two columns, accounts for 20px gap */
+    /* If you want a fixed number of columns, you can use flex-basis or width more directly */
+    margin-bottom: 18px; /* Add margin back for vertical spacing within a row if it wraps */
+}
+
+/* On smaller screens, make columns in a row stack vertically */
+@media (max-width: 768px) {
+    .styled-form .form-row {
+        flex-direction: column; /* Stack columns vertically */
+        gap: 0; /* Remove horizontal gap when stacked */
+    }
+    .styled-form .form-row .form-group.column {
+        min-width: 100%; /* Make each column take full width when stacked */
+        margin-bottom: 18px; /* Ensure vertical spacing when stacked */
+    }
+    /* Remove bottom margin from the last group in a stacked row to avoid double margin with next full-width group */
+    .styled-form .form-row .form-group.column:last-child {
+        margin-bottom: 0; 
+    }
+}
+
+/* Ensure select elements also get consistent styling */
+.styled-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--page-bg);
+    color: var(--text-on-light-bg);
+    transition: border-color var(--theme-transition-duration), background-color var(--theme-transition-duration);
+}
+.styled-form select:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 74, 152, 0.25);
+}
+body.dark-mode .styled-form select:focus {
+    border-color: var(--link-color);
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
+
+/* === END OF NEW STYLES === */
+
+
+/* === NEW STYLES FOR ADMIN RESOURCE MANAGEMENT PAGES === */
+
+/* Styling for Forms in a Card Layout */
+.form-card {
+    background-color: var(--content-bg);
+    padding: 25px 30px; /* More padding for forms */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid var(--border-color);
+    
+    max-width: 700px; /* Or 650px, 750px - adjust to what looks good for your forms */
+    margin-left: auto;
+    margin-right: auto;
+    
+    margin-top: 30px; /* Added some top margin for spacing from page title */
+    margin-bottom: 40px;
+}
+
+.form-card h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--primary-blue);
+    border-bottom: 1px solid var(--border-color); /* Underline for form section title */
+    padding-bottom: 10px;
+}
+body.dark-mode .form-card h3 {
+    color: var(--heading-text-color);
+    border-bottom-color: var(--border-color);
+}
+
+.form-group.has-error input,
+.form-group.has-error textarea,
+.form-group.has-error select {
+    border-color: var(--flash-danger-text); /* Red border for errors */
+}
+
+.form-group .error-message {
+    color: var(--flash-danger-text);
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: block;
+}
+
+.styled-form div { /* Spacing for form elements */
+    margin-bottom: 18px;
+}
+
+.styled-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: var(--text-on-light-bg); /* Uses theme variable */
+}
+
+.styled-form input[type="text"],
+.styled-form input[type="number"],
+.styled-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--page-bg); /* Or a specific input field background */
+    color: var(--text-on-light-bg);
+    transition: border-color var(--theme-transition-duration), background-color var(--theme-transition-duration);
+}
+.styled-form input[type="text"]:focus,
+.styled-form input[type="number"]:focus,
+.styled-form textarea:focus {
+    border-color: var(--primary-blue);
+    outline: none; /* Remove default browser outline */
+    box-shadow: 0 0 0 2px rgba(0, 74, 152, 0.25); /* Focus ring with a theme color */
+}
+body.dark-mode .styled-form input[type="text"]:focus,
+body.dark-mode .styled-form input[type="number"]:focus,
+body.dark-mode .styled-form textarea:focus {
+    border-color: var(--link-color);
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3); /* Focus ring for dark mode */
+}
+
+
+.styled-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Horizontal Section Divider */
+hr.section-divider {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    opacity: 0.7;
+}
+
+/* Resource Grid & Card Styles (for Halls, can be adapted for Buses) */
+.resource-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between cards */
+}
+
+.resource-card {
+    background-color: var(--content-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+    flex-basis: calc(33.333% - 14px); /* For 3 cards per row with 20px gap. (20px*2/3) = ~13.33px */
+    min-width: 270px; /* Minimum width of a card */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.resource-card h4 { /* Using h4 for card titles if h3 is for section titles */
+    font-size: 1.25em;
+    color: var(--primary-blue);
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+body.dark-mode .resource-card h4 {
+    color: var(--heading-text-color);
+}
+
+.resource-card .resource-meta,
+.resource-card .resource-detail {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    color: var(--text-on-light-bg);
+    opacity: 0.9;
+}
+
+.resource-card .resource-actions {
+    margin-top: auto; /* Pushes actions to the bottom of the card */
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex; /* For layout of action buttons/links */
+    gap: 10px; /* Space between action items */
+    align-items: center; /* Vertically align items if they have different heights */
+}
+
+/* Styling for links to look like small utility buttons */
+.button-link-styled {
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out, transform 0.15s ease-out;
+    border: 1px solid transparent; /* Base border */
+}
+.button-link-styled:hover {
+    transform: translateY(-1px);
+}
+
+
+.button-edit {
+    background-color: var(--accent-blue-light);
+    color: var(--secondary-blue);
+    border-color: var(--secondary-blue);
+}
+.button-edit:hover {
+    background-color: var(--secondary-blue);
+    color: var(--text-on-dark-bg);
+    border-color: var(--secondary-blue);
+}
+body.dark-mode .button-edit {
+    background-color: var(--accent-blue-light); /* This is dark in dark mode */
+    color: var(--link-color);
+    border-color: var(--link-color);
+}
+body.dark-mode .button-edit:hover {
+    background-color: var(--link-color);
+    color: var(--text-on-dark-bg); 
+}
+
+.button-delete {
+    background-color: transparent;
+    color: #dc3545; /* Red for delete */
+    border-color: #dc3545;
+}
+.button-delete:hover {
+    background-color: #dc3545;
+    color: white;
+}
+body.dark-mode .button-delete {
+    color: #ff8080; /* Lighter red for dark mode */
+    border-color: #ff8080;
+}
+body.dark-mode .button-delete:hover {
+    background-color: #ff8080;
+    color: var(--text-on-dark-bg);
+}
+
+
+/* Responsive Grid for Resource Cards */
+@media (max-width: 992px) {
+    .resource-card {
+        flex-basis: calc(50% - 10px); /* 2 cards per row, with 20px gap */
+    }
+}
+
+@media (max-width: 600px) { /* Adjusted breakpoint for single column */
+    .resource-card {
+        flex-basis: 100%; /* 1 card per row */
+    }
+    .resource-grid-container {
+        gap: 0; /* Remove gap if margin-bottom on cards handles stacking */
+    }
+     .resource-card { /* Add margin if gap is removed */
+        margin-bottom: 20px;
+    }
+}
+
+
+/* Ensure the main content container for the event list itself has some padding if needed */
+.main-content-container h2 {
+    margin-bottom: 25px; /* Space between "Upcoming Approved Events" and the cards */
+    text-align: center; /* Center the "Upcoming Approved Events" heading */
+}
+
+/* --- Dashboard Specific Styles --- */
+
+/* General Dashboard Layout */
+.main-content-area {
+    /* This class is used for consistent padding/margin on the dashboard page */
+    padding: 0; /* Reset padding if .content is used inside */
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.page-heading {
+    font-size: 2em;
+    color: var(--heading-text-color);
+    margin-bottom: 10px;
+}
+
+.greeting-message {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: var(--text-on-light-bg);
+    opacity: 0.9;
+}
+
+.dashboard-section {
+    margin-bottom: 40px;
+    background-color: var(--content-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid var(--border-color);
+}
+
+.dashboard-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-section-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--primary-blue);
+}
+body.dark-mode .dashboard-section-header h3 {
+    color: var(--heading-text-color);
+}
+
+.dashboard-quick-links {
+    display: flex;
+    gap: 10px;
+}
+
+/* Button Size Variants */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+/* Secondary Button Style */
+.btn-secondary {
+    background-color: var(--accent-blue-light);
+    color: var(--secondary-blue);
+    border: 1px solid var(--secondary-blue);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-blue);
+    color: var(--text-on-dark-bg);
+}
+body.dark-mode .btn-secondary {
+    background-color: var(--accent-blue-light); /* Dark in dark mode */
+    color: var(--link-color);
+    border-color: var(--link-color);
+}
+body.dark-mode .btn-secondary:hover {
+    background-color: var(--link-color);
+    color: var(--text-on-dark-bg);
+}
+
+/* Dashboard Grid & Cards */
+.dashboard-grid {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.dashboard-card {
+    background-color: var(--page-bg); /* Slightly different bg for contrast */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+body.dark-mode .dashboard-card {
+    background-color: #2a2a2a; /* Slightly lighter than content-bg */
+}
+
+.dashboard-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: var(--primary-blue);
+}
+body.dark-mode .dashboard-card h4 {
+    color: var(--heading-text-color);
+}
+
+.dashboard-card p, .dashboard-card ul {
+    font-size: 0.9em;
+    line-height: 1.5;
+    flex-grow: 1; /* Pushes action-link to the bottom */
+}
+
+.dashboard-card .count {
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--secondary-blue);
+    text-align: center;
+    margin-bottom: 10px;
+}
+body.dark-mode .dashboard-card .count {
+    color: var(--link-color);
+}
+
+.action-link {
+    margin-top: auto; /* Pushes to bottom */
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    text-align: right;
+}
+
+.action-link a {
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.action-link a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 12px;
+    color: #fff;
+    text-transform: capitalize;
+    margin-left: 8px;
+}
+.status-badge.success { background-color: #28a745; }
+.status-badge.danger  { background-color: #dc3545; }
+.status-badge.info    { background-color: #17a2b8; }
+.status-badge.warning { background-color: #ffc107; color: #333; }
+
+/* Responsive Table Wrapper */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Data Table Styling */
+.data-table {
+    margin-top: 0;
+}
+.data-table td, .data-table th {
+    font-size: 0.9em;
+}
+
+/* Specific Action Buttons for Tables */
+.button-approve {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+.button-approve:hover {
+    background-color: #218838;
+}
