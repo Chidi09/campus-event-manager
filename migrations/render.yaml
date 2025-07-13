@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: campus-event-manager
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///site.db
+    autoDeploy: true
